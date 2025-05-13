@@ -16,7 +16,7 @@ public abstract class Evento {
     private Distribucion arribo;
     private Distribucion servicio;
     private int orden; //ordena por si es de salida o de arribo
-    
+     
     public Evento (double clock, Entidad entidad,Distribucion arribo,Distribucion servicio,int orden){
         this.clock=clock;
         this.arribo=arribo;
