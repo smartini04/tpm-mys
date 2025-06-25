@@ -19,7 +19,7 @@ public class FinDeSimulacion extends Evento {
     }
 
     @Override
-    public void planificar(FEL fel, Randomizer randomizer, List<Server> servers, Estadisticas estadisticas) {
+    public void planificar(FEL fel, Randomizer randomizer, List<Server> servers, Estadisticas estadisticas, List<Server> serversDisable) {
         this.sim.setStop(true);
     }
 }

@@ -7,6 +7,7 @@ package com.etapa2;
 import java.util.List;
 
 /**
+ *
  * @author Lourdes
  */
 public class Bootstraping {
@@ -15,14 +16,16 @@ public class Bootstraping {
     private Randomizer randomizer;
     private FEL fel;
     private List<Server> server;
+    private List<Server> serverDisable;
     private boolean stop;
     private Estadisticas estadisticas;
 
-    public Bootstraping(int tsimulacion, Randomizer randomizer, List<Server> server, Distribucion arribo, Distribucion servicio) {
+    public Bootstraping(int tsimulacion, Randomizer randomizer, List<Server> server, Distribucion arribo, Distribucion servicio, List<Server> serverDisable) {
         this.tsimulacion = tsimulacion;
         this.fel = new FEL(new Ordenador());
         this.randomizer = randomizer;
         this.server = server;
+        this.serverDisable = serverDisable;
         this.stop = false;
         this.estadisticas = new Estadisticas(server, tsimulacion);
         this.fel.insert(new FinDeSimulacion(tsimulacion, 5, this, this.estadisticas));
@@ -33,13 +36,16 @@ public class Bootstraping {
         this.stop = flag;
     }
 
-    public Estadisticas getEstadisticas() { return this.estadisticas; }
-
+    public Estadisticas getEstadisticas(){
+        return this.estadisticas;
+    } 
+    
     public void run() {
+
         Evento event;
         while (!(this.stop)) {
             event = this.fel.inminente();
-            event.planificar(fel, randomizer, server, this.estadisticas);
+            event.planificar(fel, randomizer, server, this.estadisticas,serverDisable);
         }
     }
 }

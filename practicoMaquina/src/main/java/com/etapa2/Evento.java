@@ -72,7 +72,7 @@ public abstract class Evento {
         this.orden = orden;
     }
     
-    public abstract void planificar(FEL fel, Randomizer randomizer, List<Server> servers, Estadisticas estadisticas);
+    public abstract void planificar(FEL fel, Randomizer randomizer, List<Server> servers, Estadisticas estadisticas, List<Server> serversDisable);
 
     /**
      * @param clock the clock to set
