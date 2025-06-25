@@ -88,4 +88,9 @@ public class Server {
     public void decrDura(double decremento){
         this.durabilidad -= decremento;
     }
+
+    public void aumDura(double incremento){
+        this.durabilidad += incremento;
+    }
+    
 }

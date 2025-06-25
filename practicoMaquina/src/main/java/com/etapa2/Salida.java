@@ -11,7 +11,7 @@ public class Salida extends Evento {
     }
 
     @Override
-    public void planificar(FEL fel, Randomizer randomizer, List<Server> servers, Estadisticas estadisticas) {
+    public void planificar(FEL fel, Randomizer randomizer, List<Server> servers, Estadisticas estadisticas, List<Server> serversDisable) {
         //Seleccionador selec=new Seleccionador();
         //Server servactual= selec.serverActual(servers);
 
@@ -37,8 +37,14 @@ public class Salida extends Evento {
             DistribucionNormal probDesgaste = new DistribucionNormal(5, 1);
             double desgaste = probDesgaste.getTiempo(randomizer.next());
             servactual.decrDura(desgaste);
-
             servactual.setInicioOcio(this.getClock());
+            if(servactual.getDurabiliad() <= 0){
+                serversDisable.add(servactual);
+                servers.remove(servactual);
+            }
+
+            System.out.println("Marcamos el servidor libre.");
+
         }
         estadisticas.sumarAterrizado();
         estadisticas.setTrans(this.getClock() - this.getEntidad().getClockDeArribo());
