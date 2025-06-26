@@ -39,7 +39,7 @@ public class Salida extends Evento {
             servactual.decrDura(desgaste);
             servactual.setInicioOcio(this.getClock());
             
-            if(servactual.getDurabiliad() <= 0){
+            if(servactual.getDurabiliad() <= 300){
                 serversDisable.add(servactual);
                 servers.remove(servactual);
             }
