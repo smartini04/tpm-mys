@@ -4,7 +4,7 @@
  */
 package escenario;
 
-import com.etapa2.Distribucion;
+import com.tpm.Distribucion;
 
 /**
  *

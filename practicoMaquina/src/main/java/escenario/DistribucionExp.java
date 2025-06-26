@@ -1,6 +1,6 @@
 package escenario;
 
-import com.etapa2.Distribucion;
+import com.tpm.Distribucion;
 
 public class DistribucionExp implements Distribucion {
     private double mu;

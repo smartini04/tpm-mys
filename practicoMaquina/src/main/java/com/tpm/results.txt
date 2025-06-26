@@ -1,0 +1,67 @@
+Con una confianza del 95%
+--Cantidad de aterrizados--
+Limite inferior: -1823.2548756875021
+Media: 860.6
+Sigma: 1369.3137120854603
+Limite superior: 3544.454875687502
+
+--Cantidad de arribados--
+Limite inferior: 3078.3870467428233
+Media: 3152.1
+Sigma: 37.60864962100859
+Limite superior: 3225.8129532571766
+
+--Tiempo minimo de transito--
+Limite inferior: -1383.5542406287095
+Media: 287.5390127518134
+Sigma: 852.598598663532
+Limite superior: 1958.632266132336
+
+--Tiempo maximo de transito--
+Limite inferior: -6.663084225170983
+Media: 3.085766934160193
+Sigma: 4.973903652719988
+Limite superior: 12.834618093491368
+
+--Espera minima--
+Limite inferior: -3.6605272079066036
+Media: 0.7424352042461123
+Sigma: 2.2464093939554672
+Limite superior: 5.145397616398828
+
+--Espera maxima--
+Limite inferior: -1382.0673066688462
+Media: 281.6573319311454
+Sigma: 848.8391013265262
+Limite superior: 1945.3819705311369
+
+--Tiempo de ocio total--
+Limite inferior: 0.0
+Media: 0.0
+Sigma: 0.0
+Limite superior: 0.0
+
+--Tiempo de ocio minimo--
+Limite inferior: 0.0
+Media: 0.0
+Sigma: 0.0
+Limite superior: 0.0
+
+--Tiempo de ocio maximo--
+Limite inferior: 0.0
+Media: 0.0
+Sigma: 0.0
+Limite superior: 0.0
+
+--Tamaño de cola minima--
+Limite inferior: -1482.4094955782377
+Media: 1448.2
+Sigma: 1495.2089263154276
+Limite superior: 4378.809495578238
+
+--Tamaño de cola maxima--
+Limite inferior: -1406.8657198996762
+Media: 1906.9
+Sigma: 1690.696795867182
+Limite superior: 5220.665719899676
+
