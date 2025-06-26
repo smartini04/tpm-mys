@@ -4,9 +4,8 @@
  */
 package escenario;
 
+import com.etapa2.Randomizer;
 import java.util.Random;
-
-import com.tpm.Randomizer;
 
 /**
  *

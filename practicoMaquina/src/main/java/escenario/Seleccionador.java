@@ -1,9 +1,8 @@
 package escenario;
 
+import com.etapa2.Selector;
+import com.etapa2.Server;
 import java.util.List;
-
-import com.tpm.Selector;
-import com.tpm.Server;
 
 public class Seleccionador implements Selector {
 
