@@ -38,12 +38,11 @@ public class Salida extends Evento {
             double desgaste = probDesgaste.getTiempo(randomizer.next());
             servactual.decrDura(desgaste);
             servactual.setInicioOcio(this.getClock());
-            if(servactual.getDurabiliad() <= 0){
+            
+            if(servactual.getDurabiliad() <= 300){
                 serversDisable.add(servactual);
                 servers.remove(servactual);
             }
-
-            System.out.println("Marcamos el servidor libre.");
 
         }
         estadisticas.sumarAterrizado();

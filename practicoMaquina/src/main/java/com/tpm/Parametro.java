@@ -1,17 +1,18 @@
 package com.tpm;
+
 public class Parametro {
+
     private Number mu;
     private Number sigma;
     private Number n;
-    
-    
-    public Parametro(){    
+
+    public Parametro() {
     }
-    
-    public Parametro(Number mu , Number sigma){
+
+    public Parametro(Number mu, Number sigma) {
         this.mu = mu;
-        this.sigma=sigma;
-        
+        this.sigma = sigma;
+
     }
 
     public Number getMu() {
@@ -30,14 +31,12 @@ public class Parametro {
         this.sigma = sigma;
     }
 
-        public Number getN() {
+    public Number getN() {
         return n;
     }
 
     public void setN(Number n) {
         this.n = n;
     }
-
-
 
 }

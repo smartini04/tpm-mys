@@ -1,6 +1,6 @@
 package escenario;
 
-import com.etapa2.Distribucion;
+import com.tpm.Distribucion;
 import java.util.Random;
 
 public class DistribucionNormal implements Distribucion {
