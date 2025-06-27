@@ -1,7 +1,6 @@
 package com.tpm;
 
 import escenario.DistribucionNormal;
-import escenario.Seleccionador;
 import java.util.List;
 
 public class Salida extends Evento {

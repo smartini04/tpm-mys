@@ -7,8 +7,6 @@ public class Resultados {
 
     private int tiempoSim;
 
-    private List<Estadisticas> ejecuciones;
-
     // Ocio
     private List<Double> ocioMax;
     private List<Double> ocioMin;
@@ -82,7 +80,7 @@ public class Resultados {
         ));
 
         //Media de medias.
-        System.out.print("," + Double.toString(pa.getMu().doubleValue()) + ",");
+        System.out.print(" , " + Double.toString(pa.getMu().doubleValue()) + " , ");
 
         // Hacemos mMedias + 1.96 * (mMedias / sqrt(n)) para el limite superior del intervalo.
         System.out.print(Double.toString(pa.getMu().doubleValue()

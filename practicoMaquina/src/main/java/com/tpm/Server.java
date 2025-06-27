@@ -11,7 +11,7 @@ public class Server {
     private double ocioTotal;
     private double durabilidad;
     private int id;
-    
+
     
     public Server(Cola cola, int id, double durabilidad) {
         this.durabilidad=durabilidad;
