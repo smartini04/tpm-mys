@@ -45,7 +45,7 @@ public class Arribo extends Evento {
 
             //Si no, agregamos una entidad a la cola.
             servactual.getCola().agregar(this.getEntidad());
-            estadisticas.setTamCola(servactual.getCola().largo());
+            estadisticas.setTamCola(servactual.getCola().largo(),servactual.getID());
             
         }
 

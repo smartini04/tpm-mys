@@ -1,5 +1,6 @@
 package com.tpm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // Get busy livin' or get busy diyin'
@@ -11,9 +12,9 @@ public class  Estadisticas {
     private int tiempoSim;
 
     // Ocio
-    private double ocioMax;
-    private double ocioMin;
-    private double ocioAcum;
+    private List<Double> ocioMax;
+    private List<Double> ocioMin;
+    private List<Double> ocioAcum;
 
     // Transito
     private double transMax;
@@ -35,12 +36,27 @@ public class  Estadisticas {
     private int cantAterrizado;
 
     // Tamanos de cola max y min de cada servidor.
-    private int tamColaMax;
-    private int tamColaMin;
+    private List<Integer> tamColaMax;
+    private List<Integer> tamColaMin;
 
     public Estadisticas(List<Server> servers, int tiempoSim) {
-        this.tiempoSim = tiempoSim;
-        this.servers = servers;
+        this.tiempoSim  = tiempoSim;
+        this.servers    = servers;
+        this.tamColaMax = new ArrayList<>();
+        this.tamColaMin = new ArrayList<>();
+        this.ocioMin    = new ArrayList<>();
+        this.ocioAcum   = new ArrayList<>();
+        this.ocioMax    = new ArrayList<>();
+
+        // Agregamos elementos para que el size de las listas
+        // sea igual a la cantidad de servidores
+        for (int i = 0 ; i < servers.size();i++){
+            this.tamColaMax.add(0);
+            this.tamColaMin.add(0);
+            this.ocioMax.add(0.0);
+            this.ocioMin.add(0.0);
+            this.ocioAcum.add(0.0);
+        }
     }
 
     public void setEspera(double espera) {
@@ -75,16 +91,17 @@ public class  Estadisticas {
         this.transAcum += trans;
     }
 
-    public void setTamCola(int tam) {
+    public void setTamCola(int tam, int id) {
 
-        if (this.getTamColaMin() == 0) {
-            this.tamColaMin = tam;
+
+        if (this.getTamColaMin().get(id - 1 ) == 0) {
+            this.tamColaMin.set(id - 1,tam);
         }
-        if (tam > this.getTamColaMax()) {
-            this.tamColaMax = tam;
-        } else if (tam < this.getTamColaMin()) {
+        if (tam > this.getTamColaMax().get(id - 1)) {
+            this.tamColaMax.set(id - 1,tam);
+        } else if (tam < this.getTamColaMin().get(id - 1)) {
             if (tam > 0) {
-                this.tamColaMin = tam;
+                this.tamColaMin.set(id - 1,tam) ;
             }
         }
     }
@@ -95,6 +112,14 @@ public class  Estadisticas {
 
     public void sumarAterrizado() {
         this.cantAterrizado++;
+    }
+
+    public void recolectaOcio(){
+        for(Server s : servers){
+            this.ocioMax.set(s.getID() - 1,s.getOcioMax());
+            this.ocioMin.set(s.getID() - 1,s.getOcioMin());
+            this.ocioAcum.set(s.getID()- 1,s.getOcioTotal());
+        }
     }
 
     public void mostrarEstadisticas() {
@@ -157,21 +182,21 @@ public class  Estadisticas {
     /**
      * @return the ocioMax
      */
-    public double getOcioMax() {
+    public List<Double> getOcioMax() {
         return ocioMax;
     }
 
     /**
      * @return the ocioMin
      */
-    public double getOcioMin() {
+    public List<Double> getOcioMin() {
         return ocioMin;
     }
 
     /**
      * @return the ocioAcum
      */
-    public double getOcioAcum() {
+    public List<Double> getOcioAcum() {
         return ocioAcum;
     }
 
@@ -255,15 +280,13 @@ public class  Estadisticas {
     /**
      * @return the tamColaMax
      */
-    public int getTamColaMax() {
+    public List<Integer> getTamColaMax() {
         return tamColaMax;
     }
 
     /**
      * @return the tamColaMin
      */
-    public int getTamColaMin() {
-        return tamColaMin;
-    }
+    public List<Integer> getTamColaMin() { return tamColaMin;}
 
 }

@@ -20,7 +20,7 @@ public class Salida extends Evento {
 
             // Si la cola no esta vacia.
             Entidad entidadSalida = servactual.getCola().getPrimero();
-            estadisticas.setTamCola(servactual.getCola().largo());
+            estadisticas.setTamCola(servactual.getCola().largo(),servactual.getID());
             estadisticas.setEspera(this.getClock() - entidadSalida.getClockDeArribo());
 
             entidadSalida.setPista(servactual);

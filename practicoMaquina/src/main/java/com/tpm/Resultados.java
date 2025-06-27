@@ -7,10 +7,9 @@ public class Resultados {
 
     private int tiempoSim;
 
-    // Ocio
-    private List<Double> ocioMax;
-    private List<Double> ocioMin;
-    private List<Double> ocioTotal;
+    /*
+     * Estadisticas de entidades.
+     */
 
     // Transito
     private List<Double> transMax;
@@ -20,15 +19,28 @@ public class Resultados {
     private List<Double> esperaMax;
     private List<Double> esperaMin;
 
+    /*
+     * Estadisticas del sistema.
+     */
+
     // Arribados
     private List<Integer> cantArribo;
 
     // Aterrizados
     private List<Integer> cantAterrizado;
 
+    /*
+     * Estadisticas relacionadas a cada servidor.
+     */
+
+    // Ocio
+    private List<List<Double>> ocioMax;
+    private List<List<Double>> ocioMin;
+    private List<List<Double>> ocioTotal;
+
     // Cola o colas?
-    private List<Integer> tamColaMax;
-    private List<Integer> tamColaMin;
+    private List<List<Integer>> tamColaMax;
+    private List<List<Integer>> tamColaMin;
 
     public Resultados() {
         this.ocioMax = new ArrayList<>();
@@ -50,22 +62,22 @@ public class Resultados {
 
     private Parametro calcParametro(List<? extends Number> muestra) {
         Parametro p = new Parametro();
-        double acum = 0, acumCuad = 0;
+        float acum = 0, acumCuad = 0;
 
         p.setN(muestra.size());
 
         for (Number n : muestra) {
-            acum += n.doubleValue();
+            acum += n.floatValue();
         }
 
-        double mu = acum / muestra.size();
+        float mu = acum / muestra.size();
         p.setMu(mu);
 
         for (Number n : muestra) {
-            acumCuad += Math.pow(mu - n.doubleValue(), 2);
+            acumCuad += Math.pow(mu - n.floatValue(), 2);
         }
 
-        double sigma = Math.sqrt(acumCuad / (muestra.size() - 1));
+        float sigma = (float) Math.sqrt(acumCuad / (muestra.size() - 1));
         p.setSigma(sigma);
 
         return p;
@@ -75,30 +87,29 @@ public class Resultados {
         System.out.print("[");
 
         // Hacemos mMedias - 1.96 * (mMedias / sqrt(n)) para el limite inferior del intervalo.
-        System.out.print(Double.toString(pa.getMu().doubleValue()
-                - (1.96 * (pa.getSigma().doubleValue() / Math.sqrt(pa.getN().doubleValue())))
+        System.out.print(Float.toString((float) (pa.getMu().floatValue()
+                        - (1.96 * (pa.getSigma().floatValue() / Math.sqrt(pa.getN().floatValue()))))
         ));
 
         //Media de medias.
-        System.out.print(" , " + Double.toString(pa.getMu().doubleValue()) + " , ");
+        System.out.print(" , " + Float.toString(pa.getMu().floatValue()) + " , ");
 
         // Hacemos mMedias + 1.96 * (mMedias / sqrt(n)) para el limite superior del intervalo.
-        System.out.print(Double.toString(pa.getMu().doubleValue()
-                + (1.96 * (pa.getSigma().doubleValue() / Math.sqrt(pa.getN().doubleValue())))
+        System.out.print(Float.toString((float) (pa.getMu().floatValue()
+                + (1.96 * (pa.getSigma().floatValue() / Math.sqrt(pa.getN().floatValue()))))
         ));
-
         System.out.print("]");
 
         System.out.print('\n');
     }
 
     public void mostrarResultados() {
-        
+
         Parametro pa;
 
         System.out.println("Con una confianza del 95%");
         System.out.println("Formato: [Limite inferior, media, Limite superior]");
-        
+
         System.out.println("--Cantidad de aterrizados--");
         pa = this.calcParametro(this.cantAterrizado);
         printIntervalo(pa);
@@ -129,27 +140,36 @@ public class Resultados {
 
         System.out.println("--Ocio--");
 
-        System.out.print("Total: ");
-        pa = this.calcParametro(this.ocioTotal);
-        printIntervalo(pa);
+        for (int i = 0; i < ocioMax.get(0).size(); i++) {
+            System.out.println("Servidor" + Integer.toString(i+1));
 
-        System.out.print("Minimo: ");
-        pa = this.calcParametro(this.ocioMin);
-        printIntervalo(pa);
+            System.out.print("Total: ");
+            pa = this.calcParametro(this.ocioTotal.get(i));
+            printIntervalo(pa);
 
-        System.out.print("Maximo: ");
-        pa = this.calcParametro(this.ocioMax);
-        printIntervalo(pa);
+            System.out.print("Minimo: ");
+            pa = this.calcParametro(this.ocioMin.get(i));
+            printIntervalo(pa);
+
+            System.out.print("Maximo: ");
+            pa = this.calcParametro(this.ocioMax.get(i));
+            printIntervalo(pa);
+        }
 
         System.out.println("--Tamaño de cola--");
 
-        System.out.print("Minima: ");
-        pa = this.calcParametro(this.tamColaMin);
-        printIntervalo(pa);
+        for (int i = 0; i < tamColaMin.get(0).size(); i++) {
+            System.out.println("Servidor" + Integer.toString(i+1));
 
-        System.out.print("Maxima: ");
-        pa = this.calcParametro(this.tamColaMax);
-        printIntervalo(pa);
+            System.out.print("Minima: ");
+            pa = this.calcParametro(this.tamColaMin.get(i));
+            printIntervalo(pa);
+
+            System.out.print("Maxima: ");
+            pa = this.calcParametro(this.tamColaMax.get(i));
+            printIntervalo(pa);
+        }
+
     }
 
     public void setDatosEjecucion(Estadisticas ejecucion) {
