@@ -24,7 +24,7 @@ public class Arribo extends Evento {
         while (iterator.hasNext()) {
             Server server = iterator.next();
             server.aumDura(desgaste);
-            if (server.getDurabiliad() >= 2400) {
+            if (server.getDurabilidad() >= 2400) {
                 servers.add(server);
                 iterator.remove(); // elimina de forma segura el elemento actual
             }

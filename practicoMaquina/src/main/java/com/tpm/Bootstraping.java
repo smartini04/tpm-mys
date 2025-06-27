@@ -39,6 +39,6 @@ public class Bootstraping {
             event.planificar(fel, randomizer, server, this.estadisticas,serverDisable);
         }
 
-        this.estadisticas.recolectaOcio();
+        this.estadisticas.recolectaEstadoFinal();
     }
 }

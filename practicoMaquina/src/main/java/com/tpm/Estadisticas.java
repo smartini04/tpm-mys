@@ -35,6 +35,8 @@ public class  Estadisticas {
     // Aterrizados
     private int cantAterrizado;
 
+    private List<Double> durabilidadFinal;
+
     // Tamanos de cola max y min de cada servidor.
     private List<Integer> tamColaMax;
     private List<Integer> tamColaMin;
@@ -47,6 +49,7 @@ public class  Estadisticas {
         this.ocioMin    = new ArrayList<>();
         this.ocioAcum   = new ArrayList<>();
         this.ocioMax    = new ArrayList<>();
+        this.durabilidadFinal = new ArrayList<>();
 
         // Agregamos elementos para que el size de las listas
         // sea igual a la cantidad de servidores
@@ -56,6 +59,7 @@ public class  Estadisticas {
             this.ocioMax.add(0.0);
             this.ocioMin.add(0.0);
             this.ocioAcum.add(0.0);
+            this.durabilidadFinal.add(0.0);
         }
     }
 
@@ -114,11 +118,13 @@ public class  Estadisticas {
         this.cantAterrizado++;
     }
 
-    public void recolectaOcio(){
+    public void recolectaEstadoFinal(){
         for(Server s : servers){
             this.ocioMax.set(s.getID() - 1,s.getOcioMax());
             this.ocioMin.set(s.getID() - 1,s.getOcioMin());
             this.ocioAcum.set(s.getID()- 1,s.getOcioTotal());
+            this.durabilidadFinal.set(s.getID()- 1,s.getDurabilidad());
+
         }
     }
 
@@ -159,7 +165,7 @@ public class  Estadisticas {
             System.out.println("Durabiliad final de la pista "
                     + server.getID()
                     + " es "
-                    + server.getDurabiliad());
+                    + server.getDurabilidad());
 
         }
 
@@ -288,5 +294,9 @@ public class  Estadisticas {
      * @return the tamColaMin
      */
     public List<Integer> getTamColaMin() { return tamColaMin;}
+
+    public List<Double> getDurabilidadFinal(){
+        return this.durabilidadFinal;
+    }
 
 }

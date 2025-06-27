@@ -14,10 +14,12 @@ public class Resultados {
     // Transito
     private List<Double> transMax;
     private List<Double> transMin;
+    private List<Double> transMed;
 
     // Espera
     private List<Double> esperaMax;
     private List<Double> esperaMin;
+    private List<Double> esperaMed;
 
     /*
      * Estadisticas del sistema.
@@ -32,6 +34,9 @@ public class Resultados {
     /*
      * Estadisticas relacionadas a cada servidor.
      */
+
+    // Durabilidad
+    private List<List<Double>> durabilidadFinal;
 
     // Ocio
     private List<List<Double>> ocioMax;
@@ -58,6 +63,8 @@ public class Resultados {
 
         this.tamColaMax = new ArrayList<>();
         this.tamColaMin = new ArrayList<>();
+
+        this.durabilidadFinal = new ArrayList<>();
     }
 
     private Parametro calcParametro(List<? extends Number> muestra) {
@@ -141,34 +148,64 @@ public class Resultados {
         System.out.println("--Ocio--");
 
         for (int i = 0; i < ocioMax.get(0).size(); i++) {
+            ArrayList<Double> totalAux = new ArrayList<>();
+            ArrayList<Double> minAux = new ArrayList<>();
+            ArrayList<Double> maxAux = new ArrayList<>();
+
+            for (int j = 0; j < ocioMax.size();j++){
+                maxAux.add(ocioMax.get(j).get(i));
+                minAux.add(ocioMin.get(j).get(i));
+                totalAux.add(ocioTotal.get(j).get(i));
+            }
+
             System.out.println("Servidor" + Integer.toString(i+1));
 
             System.out.print("Total: ");
-            pa = this.calcParametro(this.ocioTotal.get(i));
+            pa = this.calcParametro(totalAux);
             printIntervalo(pa);
 
             System.out.print("Minimo: ");
-            pa = this.calcParametro(this.ocioMin.get(i));
+            pa = this.calcParametro(minAux);
             printIntervalo(pa);
 
             System.out.print("Maximo: ");
-            pa = this.calcParametro(this.ocioMax.get(i));
+            pa = this.calcParametro(maxAux);
             printIntervalo(pa);
         }
 
         System.out.println("--Tamaño de cola--");
 
         for (int i = 0; i < tamColaMin.get(0).size(); i++) {
+            ArrayList<Integer> minAux = new ArrayList<>();
+            ArrayList<Integer> maxAux = new ArrayList<>();
+
+            for (int j = 0; j < tamColaMin.size();j++){
+                maxAux.add(tamColaMax.get(j).get(i));
+                minAux.add(tamColaMin.get(j).get(i));
+            }
+
             System.out.println("Servidor" + Integer.toString(i+1));
 
             System.out.print("Minima: ");
-            pa = this.calcParametro(this.tamColaMin.get(i));
-            printIntervalo(pa);
+            printIntervalo(this.calcParametro(minAux));
 
             System.out.print("Maxima: ");
-            pa = this.calcParametro(this.tamColaMax.get(i));
-            printIntervalo(pa);
+            printIntervalo(this.calcParametro(maxAux));
         }
+
+        System.out.println("Durabilidad final");
+
+        for (int i = 0; i < durabilidadFinal.get(0).size(); i++) {
+            ArrayList<Double> duraAux = new ArrayList<>();
+
+            for (int j = 0; j < tamColaMin.size();j++){
+                duraAux.add(durabilidadFinal.get(j).get(i));
+            }
+
+            System.out.println("Servidor" + Integer.toString(i+1));
+            printIntervalo((this.calcParametro(this.durabilidadFinal.get(i))));
+        }
+
 
     }
 
@@ -191,5 +228,8 @@ public class Resultados {
 
         this.tamColaMax.add(ejecucion.getTamColaMax());
         this.tamColaMin.add(ejecucion.getTamColaMin());
+
+        this.durabilidadFinal.add(ejecucion.getDurabilidadFinal());
     }
 }
+
