@@ -81,7 +81,7 @@ public class Server {
         return this.ociomax;
     }
 
-    public double getDurabiliad(){
+    public double getDurabilidad(){
         return this.durabilidad;
     }
 

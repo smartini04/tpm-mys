@@ -20,7 +20,7 @@ public class Salida extends Evento {
 
             // Si la cola no esta vacia.
             Entidad entidadSalida = servactual.getCola().getPrimero();
-            estadisticas.setTamCola(servactual.getCola().largo());
+            estadisticas.setTamCola(servactual.getCola().largo(),servactual.getID());
             estadisticas.setEspera(this.getClock() - entidadSalida.getClockDeArribo());
 
             entidadSalida.setPista(servactual);
@@ -38,7 +38,7 @@ public class Salida extends Evento {
             servactual.decrDura(desgaste);
             servactual.setInicioOcio(this.getClock());
             
-            if(servactual.getDurabiliad() <= 300){
+            if(servactual.getDurabilidad() <= 300){
                 serversDisable.add(servactual);
                 servers.remove(servactual);
             }

@@ -38,5 +38,7 @@ public class Bootstraping {
             event = this.fel.inminente();
             event.planificar(fel, randomizer, server, this.estadisticas,serverDisable);
         }
+
+        this.estadisticas.recolectaEstadoFinal();
     }
 }
