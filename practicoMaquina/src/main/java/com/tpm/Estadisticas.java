@@ -3,7 +3,7 @@ package com.tpm;
 import java.util.ArrayList;
 import java.util.List;
 
-// Get busy livin' or get busy diyin'
+// Get busy living or get busy dying.
 // Los grandes artistas copian, los genios roban.
 public class  Estadisticas {
 
@@ -28,6 +28,7 @@ public class  Estadisticas {
     private double esperaMin;
     private double esperaMed;
     private double esperaAcum;
+    private int    esperaCant;
 
     // Arribados
     private int cantArribo;
@@ -37,7 +38,7 @@ public class  Estadisticas {
 
     private List<Double> durabilidadFinal;
 
-    // Tamanos de cola max y min de cada servidor.
+    // Tamaños de cola max y min de cada servidor.
     private List<Integer> tamColaMax;
     private List<Integer> tamColaMin;
 
@@ -75,8 +76,9 @@ public class  Estadisticas {
             }
         }
 
+        this.esperaCant++;
         this.esperaAcum += espera;
-
+        this.esperaMed = esperaAcum / esperaCant;
     }
 
     public void setTrans(double trans) {
@@ -93,6 +95,7 @@ public class  Estadisticas {
 
         this.transCant++;
         this.transAcum += trans;
+        this.transMed = transAcum/transCant;
     }
 
     public void setTamCola(int tam, int id) {
@@ -122,9 +125,8 @@ public class  Estadisticas {
         for(Server s : servers){
             this.ocioMax.set(s.getID() - 1,s.getOcioMax());
             this.ocioMin.set(s.getID() - 1,s.getOcioMin());
-            this.ocioAcum.set(s.getID()- 1,s.getOcioTotal());
+            this.ocioAcum.set(s.getID()- 1,s.getOcioTotal() / tiempoSim);
             this.durabilidadFinal.set(s.getID()- 1,s.getDurabilidad());
-
         }
     }
 

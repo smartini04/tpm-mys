@@ -5,10 +5,15 @@ import java.util.ArrayList;
 
 public class Resultados {
 
-    private int tiempoSim;
+    /**
+     *  Constantes relevantes.
+     */
+    private final int tiempoSim;
+    private final int cantServers;
+    private final int cantReplicaciones;
 
-    /*
-     * Estadisticas de entidades.
+    /**
+     * Estadísticas de entidades.
      */
 
     // Transito
@@ -16,13 +21,14 @@ public class Resultados {
     private List<Double> transMin;
     private List<Double> transMed;
 
+
     // Espera
     private List<Double> esperaMax;
     private List<Double> esperaMin;
     private List<Double> esperaMed;
 
-    /*
-     * Estadisticas del sistema.
+    /**
+     * Estadísticas del sistema.
      */
 
     // Arribados
@@ -31,8 +37,8 @@ public class Resultados {
     // Aterrizados
     private List<Integer> cantAterrizado;
 
-    /*
-     * Estadisticas relacionadas a cada servidor.
+    /**
+     * Estadísticas relacionadas a cada servidor.
      */
 
     // Durabilidad
@@ -43,20 +49,22 @@ public class Resultados {
     private List<List<Double>> ocioMin;
     private List<List<Double>> ocioTotal;
 
-    // Cola o colas?
+    // ¿Cola o colas?
     private List<List<Integer>> tamColaMax;
     private List<List<Integer>> tamColaMin;
 
-    public Resultados() {
+    public Resultados(int cantEjecuciones, int cantServers, int tiempoSim) {
         this.ocioMax = new ArrayList<>();
         this.ocioMin = new ArrayList<>();
         this.ocioTotal = new ArrayList<>();
 
         this.esperaMax = new ArrayList<>();
         this.esperaMin = new ArrayList<>();
+        this.esperaMed = new ArrayList<>();
 
         this.transMax = new ArrayList<>();
         this.transMin = new ArrayList<>();
+        this.transMed = new ArrayList<>();
 
         this.cantAterrizado = new ArrayList<>();
         this.cantArribo = new ArrayList<>();
@@ -65,6 +73,9 @@ public class Resultados {
         this.tamColaMin = new ArrayList<>();
 
         this.durabilidadFinal = new ArrayList<>();
+        this.cantReplicaciones = cantEjecuciones;
+        this.cantServers = cantServers;
+        this.tiempoSim = tiempoSim;
     }
 
     private Parametro calcParametro(List<? extends Number> muestra) {
@@ -111,80 +122,97 @@ public class Resultados {
     }
 
     public void mostrarResultados() {
-
-        Parametro pa;
-
-        System.out.println("Con una confianza del 95%");
-        System.out.println("Formato: [Limite inferior, media, Limite superior]");
+        System.out.println("Confianza: 95%");
+        System.out.println("Cantidad de replicaciones: " + Integer.toString(cantReplicaciones));
+        System.out.println("Tiempo de simulacion: "      + Integer.toString(tiempoSim));
+        System.out.println("Formato: [Limite inferior, media, limite superior]");
+        System.out.println(" ");
 
         System.out.println("--Cantidad de aterrizados--");
-        pa = this.calcParametro(this.cantAterrizado);
-        printIntervalo(pa);
+        printIntervalo(this.calcParametro(this.cantAterrizado));
+        System.out.println(" ");
 
         System.out.println("--Cantidad de arribados--");
-        pa = this.calcParametro(this.cantArribo);
-        printIntervalo(pa);
+        printIntervalo(this.calcParametro(this.cantArribo));
+        System.out.println(" ");
 
-        System.out.println("--Transito--");
+        System.out.println("--Transito [min]--");
 
         System.out.print("Minimo: ");
-        pa = this.calcParametro(this.transMin);
-        printIntervalo(pa);
+        printIntervalo(this.calcParametro(this.transMin));
+
+        System.out.print("Medio: ");
+        printIntervalo(this.calcParametro(this.transMed));
 
         System.out.print("Maximo: ");
-        pa = this.calcParametro(this.transMax);
-        printIntervalo(pa);
+        printIntervalo(this.calcParametro(this.transMax));
+        System.out.println(" ");
 
-        System.out.println("--Espera--");
+        System.out.println("--Espera [min]--");
 
         System.out.print("Minima: ");
-        pa = this.calcParametro(this.esperaMin);
-        printIntervalo(pa);
+        printIntervalo(this.calcParametro(this.esperaMin));
+
+        System.out.print("Media: ");
+        printIntervalo(this.calcParametro(this.esperaMed));
 
         System.out.print("Maxima: ");
-        pa = this.calcParametro(this.esperaMax);
-        printIntervalo(pa);
+        printIntervalo(this.calcParametro(this.esperaMax));
+        System.out.println(" ");
 
-        System.out.println("--Ocio--");
+        System.out.println("--Ocio [Total: %, Minimo y Maximo: min]--");
 
-        for (int i = 0; i < ocioMax.get(0).size(); i++) {
+        for (int i = 0; i < cantServers; i++) {
+
             ArrayList<Double> totalAux = new ArrayList<>();
-            ArrayList<Double> minAux = new ArrayList<>();
-            ArrayList<Double> maxAux = new ArrayList<>();
+            ArrayList<Double> minAux   = new ArrayList<>();
+            ArrayList<Double> maxAux   = new ArrayList<>();
 
-            for (int j = 0; j < ocioMax.size();j++){
-                maxAux.add(ocioMax.get(j).get(i));
-                minAux.add(ocioMin.get(j).get(i));
-                totalAux.add(ocioTotal.get(j).get(i));
+            /*  Por la forma en la que estan almacenados los valores de
+             *  cada replicacion debemos recorrer recoletando el valor
+             *  correspondiente al servidor [indice = id - 1]
+             */
+            for (List<Double> list : ocioMax){
+                maxAux.add(list.get(i));
             }
 
-            System.out.println("Servidor" + Integer.toString(i+1));
+            for (List<Double> list : ocioMin){
+                minAux.add(list.get(i));
+            }
+
+            for (List<Double> list : ocioTotal){
+                totalAux.add(list.get(i));
+            }
+
+            // i+1 = indice de arrreglo
+            System.out.println("Pista " + Integer.toString(i+1));
 
             System.out.print("Total: ");
-            pa = this.calcParametro(totalAux);
-            printIntervalo(pa);
+            printIntervalo(this.calcParametro(totalAux));
 
             System.out.print("Minimo: ");
-            pa = this.calcParametro(minAux);
-            printIntervalo(pa);
+            printIntervalo(this.calcParametro(minAux));
 
             System.out.print("Maximo: ");
-            pa = this.calcParametro(maxAux);
-            printIntervalo(pa);
+            printIntervalo(this.calcParametro(maxAux));
         }
+        System.out.println(" ");
 
         System.out.println("--Tamaño de cola--");
 
-        for (int i = 0; i < tamColaMin.get(0).size(); i++) {
+        for (int i = 0; i < cantServers; i++) {
             ArrayList<Integer> minAux = new ArrayList<>();
             ArrayList<Integer> maxAux = new ArrayList<>();
 
-            for (int j = 0; j < tamColaMin.size();j++){
-                maxAux.add(tamColaMax.get(j).get(i));
-                minAux.add(tamColaMin.get(j).get(i));
+            for (List<Integer> list : tamColaMax){
+                maxAux.add(list.get(i));
             }
 
-            System.out.println("Servidor" + Integer.toString(i+1));
+            for (List<Integer> list : tamColaMin){
+                minAux.add(list.get(i));
+            }
+
+            System.out.println("Pista " + Integer.toString(i+1));
 
             System.out.print("Minima: ");
             printIntervalo(this.calcParametro(minAux));
@@ -192,20 +220,21 @@ public class Resultados {
             System.out.print("Maxima: ");
             printIntervalo(this.calcParametro(maxAux));
         }
+        System.out.println(" ");
 
         System.out.println("Durabilidad final");
 
-        for (int i = 0; i < durabilidadFinal.get(0).size(); i++) {
+        for (int i = 0; i < cantServers; i++) {
             ArrayList<Double> duraAux = new ArrayList<>();
 
-            for (int j = 0; j < tamColaMin.size();j++){
-                duraAux.add(durabilidadFinal.get(j).get(i));
+            for (List<Double> list : durabilidadFinal){
+                duraAux.add(list.get(i));
             }
 
-            System.out.println("Servidor" + Integer.toString(i+1));
+            System.out.println("Pista " + Integer.toString(i+1));
             printIntervalo((this.calcParametro(this.durabilidadFinal.get(i))));
         }
-
+        System.out.println(" ");
 
     }
 
@@ -216,12 +245,14 @@ public class Resultados {
 
         this.esperaMax.add(ejecucion.getEsperaMax());
         this.esperaMin.add(ejecucion.getEsperaMin());
+        this.esperaMed.add(ejecucion.getEsperaMed());
 
         this.cantArribo.add(ejecucion.getCantArribo());
         this.cantAterrizado.add(ejecucion.getCantAterrizado());
 
         this.transMax.add(ejecucion.getTransMax());
         this.transMin.add(ejecucion.getTransMin());
+        this.esperaMed.add(ejecucion.getTransMed());
 
         this.cantArribo.add(ejecucion.getCantArribo());
         this.cantAterrizado.add(ejecucion.getCantAterrizado());

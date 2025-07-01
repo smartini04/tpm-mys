@@ -39,6 +39,7 @@ public class Server {
     public Cola getCola() {
         return cola;
     }
+
     public int getID() {
         return id;
     }

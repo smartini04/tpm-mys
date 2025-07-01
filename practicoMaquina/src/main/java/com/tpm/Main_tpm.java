@@ -12,8 +12,8 @@ public class Main_tpm {
 
     public static void main(String[] args) {
 
-        int cantServer = 5, cantEjecuciones = 50;
-        Resultados resultados = new Resultados();
+        final int cantServer = 5, cantEjecuciones = 50, tiempoSim = 40000;
+        Resultados resultados = new Resultados(cantEjecuciones,cantServer,tiempoSim);
 
         for (int i = 0; i < cantEjecuciones; i++) {
 
@@ -25,9 +25,10 @@ public class Main_tpm {
                 servers.get(j).setOcupado(false);
             }
 
-            Bootstraping bootstraping = new Bootstraping(40000, new ObtenerRandom(), servers,
+            Bootstraping bootstraping = new Bootstraping(tiempoSim, new ObtenerRandom(), servers,
                     new DistribucionExp(0), new DistribucionUniforme(10, 25), serversDisable);
             bootstraping.run();
+
             resultados.setDatosEjecucion(bootstraping.getEstadisticas());
         }
 

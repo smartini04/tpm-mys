@@ -17,7 +17,7 @@ public class Arribo extends Evento {
         Seleccionador selec = new Seleccionador();
 
         // Antes que de seleccionar el server revisa si hay algun server que se habilite
-        DistribucionNormal probIncremento = new DistribucionNormal(5, 1);
+        DistribucionNormal probIncremento = new DistribucionNormal(18, 3);
         double desgaste = probIncremento.getTiempo(randomizer.next());
 
         Iterator<Server> iterator = serversDisable.iterator();

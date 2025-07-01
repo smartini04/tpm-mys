@@ -1,5 +1,6 @@
 package com.tpm;
 
+import escenario.DistribucionExp;
 import escenario.DistribucionNormal;
 import java.util.List;
 
@@ -11,9 +12,7 @@ public class Salida extends Evento {
 
     @Override
     public void planificar(FEL fel, Randomizer randomizer, List<Server> servers, Estadisticas estadisticas, List<Server> serversDisable) {
-        //Seleccionador selec=new Seleccionador();
-        //Server servactual= selec.serverActual(servers);
-
+        
         Server servactual = super.getEntidad().getPista();
 
         if (!servactual.getCola().estaVacio()) {
@@ -33,7 +32,8 @@ public class Salida extends Evento {
 
             // Marcamos desocupado al server.
             servactual.setOcupado(false);
-            DistribucionNormal probDesgaste = new DistribucionNormal(5, 1);
+
+            DistribucionNormal probDesgaste = new DistribucionNormal(5,1);
             double desgaste = probDesgaste.getTiempo(randomizer.next());
             servactual.decrDura(desgaste);
             servactual.setInicioOcio(this.getClock());
