@@ -1,8 +1,7 @@
 package escenario;
 
-import java.util.Random;
-
 import com.tpm.Distribucion;
+import java.util.Random;
 
 public class DistribucionNormal implements Distribucion {
     private int mu;

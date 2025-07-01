@@ -1,7 +1,7 @@
 package com.tpm;
 
+import escenario.DistribucionExp;
 import escenario.DistribucionNormal;
-import escenario.Seleccionador;
 import java.util.List;
 
 public class Salida extends Evento {
@@ -12,16 +12,14 @@ public class Salida extends Evento {
 
     @Override
     public void planificar(FEL fel, Randomizer randomizer, List<Server> servers, Estadisticas estadisticas, List<Server> serversDisable) {
-        //Seleccionador selec=new Seleccionador();
-        //Server servactual= selec.serverActual(servers);
-
+        
         Server servactual = super.getEntidad().getPista();
 
         if (!servactual.getCola().estaVacio()) {
 
             // Si la cola no esta vacia.
             Entidad entidadSalida = servactual.getCola().getPrimero();
-            estadisticas.setTamCola(servactual.getCola().largo());
+            estadisticas.setTamCola(servactual.getCola().largo(),servactual.getID());
             estadisticas.setEspera(this.getClock() - entidadSalida.getClockDeArribo());
 
             entidadSalida.setPista(servactual);
@@ -34,16 +32,16 @@ public class Salida extends Evento {
 
             // Marcamos desocupado al server.
             servactual.setOcupado(false);
-            DistribucionNormal probDesgaste = new DistribucionNormal(5, 1);
+
+            DistribucionNormal probDesgaste = new DistribucionNormal(5,1);
             double desgaste = probDesgaste.getTiempo(randomizer.next());
             servactual.decrDura(desgaste);
             servactual.setInicioOcio(this.getClock());
-            if(servactual.getDurabiliad() <= 0){
+            
+            if(servactual.getDurabilidad() <= 300){
                 serversDisable.add(servactual);
                 servers.remove(servactual);
             }
-
-            System.out.println("Marcamos el servidor libre.");
 
         }
         estadisticas.sumarAterrizado();

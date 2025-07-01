@@ -11,7 +11,7 @@ public class Server {
     private double ocioTotal;
     private double durabilidad;
     private int id;
-    
+
     
     public Server(Cola cola, int id, double durabilidad) {
         this.durabilidad=durabilidad;
@@ -39,6 +39,7 @@ public class Server {
     public Cola getCola() {
         return cola;
     }
+
     public int getID() {
         return id;
     }
@@ -81,7 +82,7 @@ public class Server {
         return this.ociomax;
     }
 
-    public double getDurabiliad(){
+    public double getDurabilidad(){
         return this.durabilidad;
     }
 
