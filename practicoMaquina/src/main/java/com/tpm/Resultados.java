@@ -252,7 +252,7 @@ public class Resultados {
 
         this.transMax.add(ejecucion.getTransMax());
         this.transMin.add(ejecucion.getTransMin());
-        this.esperaMed.add(ejecucion.getTransMed());
+        this.transMed.add(ejecucion.getTransMed());
 
         this.cantArribo.add(ejecucion.getCantArribo());
         this.cantAterrizado.add(ejecucion.getCantAterrizado());

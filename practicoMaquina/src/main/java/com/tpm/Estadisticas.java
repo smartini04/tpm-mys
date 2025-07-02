@@ -52,6 +52,9 @@ public class  Estadisticas {
         this.ocioMax    = new ArrayList<>();
         this.durabilidadFinal = new ArrayList<>();
 
+        this.transCant  = 0;
+        this.esperaCant = 0;
+
         // Agregamos elementos para que el size de las listas
         // sea igual a la cantidad de servidores
         for (int i = 0 ; i < servers.size();i++){
